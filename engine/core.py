@@ -274,6 +274,6 @@ class Screen(Image):
 
         return array
 
-    def save(self, file_name = "img.png"):
+    def save(self, file_name = "result.png"):
         array = np.array(self.room_with_tuples, dtype=np.uint8)
         imsave(file_name, array)
