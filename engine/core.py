@@ -8,7 +8,7 @@ from engine.colors import *
 class Screen(Image):
 
     def __init__(self, height = 224, width = 620, bgcolor = black):
-        super().__init__()
+        super().__init__(auto_install=False)
 
         self.height = height
         self.width = width
