@@ -19,10 +19,8 @@ def main():
 
     def setup(screen):
         screen.draw_axes()
-        screen.plot(Sin, 0, 0, red)
-        screen.plot(Sin, 0, 0, green, 40)
-        for i in range(0, 1000,3):
-            screen.plot(Sin * 0.7 + Sin[X * 0.5 - 1] + Cos[X * 0.2] * 3 - i, 0, 0, blue, 40)
+        screen.split_regions(Sin * 0.7 + Sin[X * 0.5 - 1] + Cos[X * 0.2] * 3, colors = [green, dark_green, cian])
+        screen.paint_over(Sqrt[X ** 2 * -1 + I * 2500] + 300, color = yellow, x_bounds = [-49, 49], y_bounds = [250, 350])
 
     def loop(screen):
         screen.draw_axes()

@@ -1,3 +1,4 @@
+from pickle import NONE
 import numpy as np
 from eggdriver import Image, Vector, clearConsole
 from math import cos, sin, acos
@@ -159,6 +160,82 @@ class Screen(Image):
         for t in range(1, steps):
             method(*args, zoom)
 
+    def paint_under(self, function, x = 0, y = 0, color = red, zoom = 10, x_bounds = None, y_bounds = None):
+        zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
+
+        if x_bounds != None:
+            lower = x_bounds[0]
+            upper = x_bounds[1]
+        else:
+            lower = -1 * zoomed_x
+            upper = zoomed_x
+
+        if y_bounds != None:
+            lower_y = y_bounds[0]
+            upper_y = y_bounds[1]
+        else:
+            lower_y = -self.mid_height
+            upper_y = self.mid_height
+
+        for x_ in range(int(lower), int(upper)):
+            for y_value in range(
+                    max(-self.mid_height, lower_y),
+                    min(round(y + (function)(x_ / zoom) * zoom), upper_y)
+                ):
+                self.draw_point(round(x + x_), y_value, color)
+
+    def paint_over(self, function, x = 0, y = 0, color = red, zoom = 10, x_bounds = None, y_bounds = None):
+        zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
+
+        if x_bounds != None:
+            lower = x_bounds[0]
+            upper = x_bounds[1]
+        else:
+            lower = -1 * zoomed_x
+            upper = zoomed_x
+
+        if y_bounds != None:
+            lower_y = y_bounds[0]
+            upper_y = y_bounds[1]
+        else:
+            lower_y = -self.mid_height
+            upper_y = self.mid_height
+
+        for x_ in range(int(lower), int(upper)):
+            for y_value in range(
+                    max(round(y + (function)(x_ / zoom) * zoom), lower_y),
+                    min(self.mid_height, upper_y)
+                ):
+                self.draw_point(round(x + x_), y_value, color)
+
+    def split_regions(self, function, x = 0, y = 0, colors = [red, red] , zoom = 10, x_bounds = None, y_bounds = None):
+        zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
+
+        if x_bounds != None:
+            lower = x_bounds[0]
+            upper = x_bounds[1]
+        else:
+            lower = -1 * zoomed_x
+            upper = zoomed_x
+
+        if y_bounds != None:
+            lower_y = y_bounds[0]
+            upper_y = y_bounds[1]
+        else:
+            lower_y = -self.mid_height
+            upper_y = self.mid_height
+
+        for x_ in range(int(lower), int(upper)):
+            for y_value in range(-self.mid_height, self.mid_height):
+                fy = round(y + (function)(x_ / zoom) * zoom)
+
+                if y_value < max(fy, lower_y):              
+                    self.draw_point(round(x + x_), y_value, colors[0])
+                elif y_value == fy:
+                    self.draw_point(round(x + x_), y_value, colors[1])
+                elif y_value > min(fy, upper_y):
+                    self.draw_point(round(x + x_), y_value, colors[2])
+
     def heart(self, x = 0, y = 0, color = red, zoom = 5):
         coloring_depth = 600
 
@@ -277,4 +354,3 @@ class Screen(Image):
     def save(self, file_name = "result.png"):
         array = np.array(self.room_with_tuples, dtype=np.uint8)
         imsave(file_name, array)
-    

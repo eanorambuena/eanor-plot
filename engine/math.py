@@ -55,7 +55,9 @@ class Function():
             return self.f(other.f(x))
         return Function(new_f)
 
+I = Function(Constant1)
 X = Function(x)
 Sin = Function(math.sin)
 Cos = Function(math.cos)
 Tan = Function(math.tan)
+Sqrt = Function(math.sqrt)
