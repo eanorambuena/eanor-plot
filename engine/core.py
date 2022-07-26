@@ -99,7 +99,7 @@ class Screen(Image):
             upper = zoomed_x
 
         for x_ in range(int(lower), int(upper)):
-            self.draw_point(round(x + x_), round(y + function(x_ / zoom) * zoom), color)
+            self.draw_point(round(x + x_), round(y + (function)(x_ / zoom) * zoom), color)
 
     def parametric_plot(self, x_function, y_function, x = 0, y = 0, color = red, zoom = 10, t_range = range(100)):
 
@@ -277,3 +277,4 @@ class Screen(Image):
     def save(self, file_name = "result.png"):
         array = np.array(self.room_with_tuples, dtype=np.uint8)
         imsave(file_name, array)
+    

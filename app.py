@@ -19,13 +19,14 @@ def main():
 
     def setup(screen):
         screen.draw_axes()
-        screen.plot(sin, 0, 0, red)
-        screen.plot(sin, 0, 0, green, 40)
-        
+        screen.plot(Sin, 0, 0, red)
+        screen.plot(Sin, 0, 0, green, 40)
+        for i in range(0, 1000,3):
+            screen.plot(Sin * 0.7 + Sin[X * 0.5 - 1] + Cos[X * 0.2] * 3 - i, 0, 0, blue, 40)
 
     def loop(screen):
         screen.draw_axes()
-        screen.plot(sin, 0, 0, red)
+        screen.plot(Sin, 0, 0, red)
         screen.plot(sin, 0, 0, green, 40)
 
     setup(engine_screen)

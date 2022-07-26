@@ -1,58 +1,61 @@
-def transpose(A):
-    n = len(A)
-    m = len(A[0])
+import math
 
-    result = []
-    for j in range(m):
-        row = []
-        for i in range(n):
-            value = A[i][j]
-            row.append(value)
-        result.append(row)
+def Constant1(x):
+    return 1
 
-    return result
+def x(y):
+    return y
 
-def dot(A, B):
+class Function():
+    def __init__(self, f):
+        self.f = f
+        self.name = f.__name__.capitalize()
+    def __call__(self, x):
+        return self.f(x)
+    def __add__(self, other):
+        if type(other) in [int, float]:
+            return self + Function(Constant1) * other
+        def new_f(x):
+            return self.f(x) + other.f(x)
+        return Function(new_f)
+    def __sub__(self, other):
+        if type(other) in [int, float]:
+            return self - Function(Constant1) * other
+        def new_f(x):
+            return self.f(x) - other.f(x)
+        return Function(new_f)
+    def __mul__(self, other):
+        if type(other) in [int, float]:
+            def ConstantOther(x):
+                return other
+            return self * Function(ConstantOther)
+        def new_f(x):
+            return self.f(x) * other.f(x)
+        new_function = Function(new_f)
+        new_function.name = self.name + " * " + str(other)
+        return new_function
+    def __pow__(self, other):
+        if type(other) in [int, float]:
+            def ConstantOther(x):
+                return other
+            return self ** Function(ConstantOther)
+        def new_f(x):
+            return self.f(x) ** other.f(x)
+        new_function = Function(new_f)
+        new_function.name = self.name + " ** " + str(other)
+        return new_function
+    def __truediv__(self, number):
+        def new_f(x):
+            return self.f(x) / number
+        return Function(new_f)
+    def __str__(self):
+        return self.name
+    def __getitem__(self, other): #compose
+        def new_f(x):
+            return self.f(other.f(x))
+        return Function(new_f)
 
-    if (type(A) in [int, float]) and (type(B) in [int, float]):
-        return A * B
-
-    elif (type(A) in [int, float]) and type(B) == list:
-        result = []
-        for i in range(len(B)):
-            value = A * B[i]
-            result.append(value)
-        
-        return result
-
-    elif type(A) == list and (type(B) in [int, float]):
-        return dot(B, A)
-
-    n = len(A)
-    m = len(A[0])
-
-    result = []
-    for i in range(n):
-        row = []
-        for j in range(m):
-            vA = Vector(A[i])
-            vB = Vector(transpose(B)[j])
-            value = vA.dot(vB)
-            row.append(value)
-        result.append(row)
-
-    return result
-
-def identity(n):
-    result = []
-    for i in range(n):
-        row = []
-        for j in range(m):
-            if i == j:
-                row.append(1)
-            else:
-                row.append(0)
-        result.append(row)
-
-    return result
-    
+X = Function(x)
+Sin = Function(math.sin)
+Cos = Function(math.cos)
+Tan = Function(math.tan)

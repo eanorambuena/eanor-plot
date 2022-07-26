@@ -34,6 +34,3 @@ class Camera3d:
         transformed_x = position[0]
         transformed_y = position[1]
         return [int(transformed_x), int(transformed_y)]
-
-
-
