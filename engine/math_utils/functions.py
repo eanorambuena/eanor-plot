@@ -1,3 +1,4 @@
+from constraint import Domain
 import  engine.math_utils.domains as   dom
 from    engine.math_utils.utils import *
 

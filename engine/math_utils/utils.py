@@ -12,6 +12,12 @@ def is_negative(x):
 def is_real(x):
     return type(x) in [int, float]
 
+def universal_truth(x):
+    return True
+
+def universal_falsity(x):
+    return False
+
 def Constant1(x):
     return 1
 
@@ -19,11 +25,16 @@ def x(y):
     return y
 
 def string_balance(string, chars = "()"):
-    # If first "(" appears after first ")", then it's not balanced; Else, it's balanced
-    first_open = string.find(chars[0])
-    first_close = string.find(chars[1])
-
-    return not (first_open > first_close)
+    # Check if string is balanced in the string
+    balance = 0
+    for char in string:
+        if char == chars[0]:
+            balance += 1
+        elif char == chars[-1]:
+            balance -= 1
+        if balance < 0:
+            return False
+    return balance == 0
 
 def symmetric_strip(string, chars = "()"):
     # Remove chars from the beginning and end of string if they are balanced in the string
@@ -34,4 +45,3 @@ def symmetric_strip(string, chars = "()"):
         string = new_string
 
     return string
-    

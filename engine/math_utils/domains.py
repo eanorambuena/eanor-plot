@@ -1,3 +1,5 @@
+import types
+
 from engine.math_utils.utils import *
 
 class Domain():
@@ -7,6 +9,13 @@ class Domain():
             def contain_function(x):
                 return x in list_domain
             name = f"Domain({list_domain})"
+
+        # if is Function class:
+        if not isinstance(contain_function, (types.FunctionType, types.BuiltinFunctionType)):
+            self.contain_function = contain_function.domain.contain_function
+            self.name = contain_function.domain.name
+            return
+            
         self.contain_function = contain_function
         self.name = name
     def __contains__(self, x):
@@ -36,14 +45,16 @@ class Domain():
     def __str__(self):
         return repr(self)
 
-Intergers = Domain(is_integer, "Intergers")
-Reals = Domain(is_real, "Reals")
-Positive = Domain(is__positive, "Positive")
-Negative = Domain(is_negative, "Negative")
-Zero = Domain([0], "Zero")
+Universe    = Domain(universal_truth,   "Universe")
+Vacuous     = Domain(universal_falsity, "Vacuous")
+Intergers   = Domain(is_integer,        "Intergers")
+Reals       = Domain(is_real,           "Reals")
+Positive    = Domain(is__positive,      "Positive")
+Negative    = Domain(is_negative,       "Negative")
+Zero        = Domain([0],               "Zero")
 
 NonNegative = Positive + Zero
 NonNegative.name = "NonNegative"
 
-Naturals = Intergers * NonNegative
+Naturals    = Intergers * NonNegative
 Naturals.name = "Naturals"
