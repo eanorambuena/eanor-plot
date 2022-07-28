@@ -1,7 +1,7 @@
 from pickle import NONE
 import numpy as np
 from eggdriver import Image, Vector, clearConsole
-from math import cos, sin, acos
+from math import cos, sin, acos, pi
 from matplotlib.pyplot import imsave
 
 from engine.colors import *
