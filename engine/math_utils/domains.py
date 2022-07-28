@@ -40,13 +40,21 @@ class Domain():
         return symmetric_strip(result)
     def __eq__(self, other):
         return self.short_name == other.short_name
+    def __getitem__(self, dimension):
+        def new_f(x):
+            return all(i in self for i in x)
+        if " " in self.name:
+            name = f"({self.name})[{dimension}]"
+        else:
+            name = f"{self.name}[{dimension}]"
+        return Domain(new_f, name)
     def __repr__(self): 
         return self.short_name
     def __str__(self):
         return repr(self)
 
 Universe    = Domain(universal_truth,   "Universe")
-Vacuous     = Domain(universal_falsity, "Vacuous")
+EmptySet    = Domain(universal_falsity, "EmptySet")
 Intergers   = Domain(is_integer,        "Intergers")
 Reals       = Domain(is_real,           "Reals")
 Positive    = Domain(is__positive,      "Positive")

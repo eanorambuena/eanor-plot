@@ -26,7 +26,11 @@ class Function():
             return self - Function(ConstantOther, name = str(other))
         def new_f(x):
             return self.f(x) - other.f(x)
-        return Function(new_f, self.domain * other.domain, f"{self.name} - {other}")
+        if " " in other.name:
+            name = f"{self.name} - ({other})"
+        else:
+            name = f"{self.name} - {other}"
+        return Function(new_f, self.domain * other.domain, name)
     def __mul__(self, other):
         if other in dom.Reals:
             def ConstantOther(x):
@@ -34,7 +38,8 @@ class Function():
             return self * Function(ConstantOther, name = str(other))
         def new_f(x):
             return self.f(x) * other.f(x)
-        return Function(new_f, self.domain * other.domain, f"{self.name} * {other}")
+        name = format_function(self, other, "*")
+        return Function(new_f, self.domain * other.domain, name)
     def __pow__(self, other):
         if other in dom.Reals:
             def ConstantOther(x):
@@ -42,7 +47,8 @@ class Function():
             return self ** Function(ConstantOther, name = str(other))
         def new_f(x):
             return self.f(x) ** other.f(x)
-        return Function(new_f, self.domain * other.domain, f"{self.name} ** {other}")
+        name = format_function(self, other, "**")
+        return Function(new_f, self.domain * other.domain, name)
     def __truediv__(self, other):
         if other in dom.Reals:
             def ConstantOther(x):
@@ -50,15 +56,24 @@ class Function():
             return self / Function(ConstantOther, name = str(other))
         def new_f(x):
             return self.f(x) / other.f(x)
-        return Function(new_f, self.domain * other.domain - (other == 0), f"{self.name} / {other}")
+        name = format_function(self, other, "/")
+        return Function(new_f, self.domain * other.domain - (other == 0), name)
     def __neg__(self):
         def new_f(x):
             return -self.f(x)
-        return Function(new_f, self.domain, f"-{self.name}")
+        if " " in self.name:
+            name = f"-({self.name})"
+        else:
+            name = f"-{self.name}"
+        return Function(new_f, self.domain, name)
     def __getitem__(self, other): #compose
         def new_f(x):
             return self.f(other.f(x))
-        return Function(new_f, other.domain * (other % self.domain), f"{self.name}[{other}]")
+        if " " in self.name:
+            name = f"({self.name})[{other}]"
+        else:
+            name = f"{self.name}[{other}]"
+        return Function(new_f, other.domain * (other % self.domain), name)
     def __eq__(self, other):
         if other in dom.Reals:
             def ConstantOther(x):
@@ -117,7 +132,7 @@ class Function():
         elif domain == dom.NonNegative:
             name = f"({self.name} >= 0)"
         else:
-            name = f"(({self.name}) % ({domain}))"
+            name = format_function(self, domain, "%")
         return dom.Domain(new_f, name)
     def __repr__(self):
         return self.name
@@ -132,3 +147,5 @@ Sin     = Function(math.sin,    dom.Reals,                      "Sin")
 Cos     = Function(math.cos,    dom.Reals,                      "Cos")
 Tan     = Function(math.tan,    dom.Reals - (Cos == 0),         "Tan")
 Sqrt    = Function(math.sqrt,   dom.Reals * dom.NonNegative,    "Sqrt")
+
+Sum     = Function(sum,         dom.Reals[2],                   "Sum")

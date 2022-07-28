@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 def is_integer(x):
     return type(x) is int
@@ -45,3 +46,24 @@ def symmetric_strip(string, chars = "()"):
         string = new_string
 
     return string
+
+def format_function(f, other, operation, domain = False):
+    if domain:
+        if " " in other.short_name and " " in f.name:
+                name = f"({f.name}) {operation} ({other})"
+        elif " " in other.short_name:
+            name = f"{f.name} {operation} ({other})"
+        elif " " in f.name:
+            name = f"({f.name}) {operation} {other}"
+        else:
+            name = f"{f.name} {operation} {other}"
+    else:
+        if " " in other.name and " " in f.name:
+                name = f"({f.name}) {operation} ({other})"
+        elif " " in other.name:
+            name = f"{f.name} {operation} ({other})"
+        elif " " in f.name:
+            name = f"({f.name}) {operation} {other}"
+        else:
+            name = f"{f.name} {operation} {other}"
+    return name
