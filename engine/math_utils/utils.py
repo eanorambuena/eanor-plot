@@ -18,17 +18,18 @@ def Constant1(x):
 def x(y):
     return y
 
-def symmetric_strip(string, chars = "()"):
-    def string_balance(string):
-        # if first "(" appears after first ")", then it's not balanced
-        # else it's balanced
-        first_open = string.find(chars[0])
-        first_close = string.find(chars[1])
-        return not (first_open > first_close)
+def string_balance(string, chars = "()"):
+    # If first "(" appears after first ")", then it's not balanced; Else, it's balanced
+    first_open = string.find(chars[0])
+    first_close = string.find(chars[1])
 
-    while (string[0] == chars[0]) and (string[-1] == chars[-1] and string_balance(string)):
+    return not (first_open > first_close)
+
+def symmetric_strip(string, chars = "()"):
+    # Remove chars from the beginning and end of string if they are balanced in the string
+    while (string[0] == chars[0]) and (string[-1] == chars[-1]) and string_balance(string, chars):
         new_string = string[1:-1]
-        if not string_balance(new_string):
+        if not string_balance(new_string, chars):
             break
         string = new_string
 
