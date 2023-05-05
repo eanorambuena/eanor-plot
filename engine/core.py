@@ -1,21 +1,17 @@
-from pickle import NONE
+from   eggdriver import Image, Vector, clearConsole
+from   math import cos, sin, acos, pi
+from   matplotlib.pyplot import imsave
 import numpy as np
-from eggdriver import Image, Vector, clearConsole
-from math import cos, sin, acos, pi
-from matplotlib.pyplot import imsave
 
-from engine.colors import *
+from   engine.colors import *
 
 class Screen(Image):
 
     def __init__(self, height = 224, width = 620, bgcolor = black):
         super().__init__()
-
         self.height = height
         self.width = width
-
         self.bgcolor = bgcolor
-
         self.fill_room()
 
     def clear(self):
@@ -56,31 +52,17 @@ class Screen(Image):
     def draw_point(self, x = 0, y = 0, color = white):
         center_x = self.mid_width
         center_y = self.mid_height
-
         i = center_y - y
         j = center_x + x
-
-        if i < 0:
+        if i < 0 or i >= self.height or j < 0 or j >= self.width:
             return
-
-        elif i >= self.height:
-            return
-
-        if j < 0:
-            return
-
-        elif j >= self.width:
-            return
-
         self.room[i][j] = color
 
     def draw_x_axe(self, color = white):
-        
         for x in range(-self.mid_width, self.mid_width):
             self.draw_point(x, 0, color)
 
     def draw_y_axe(self, color = white):
-
         for y in range(-self.mid_height, self.mid_height):
             self.draw_point(0, y, color)
 
@@ -90,31 +72,26 @@ class Screen(Image):
         
     def plot(self, function, x = 0, y = 0, color = red, zoom = 10, x_bounds = None):
         zoomed_x = int(self.width / 2 * zoom)
-
         if x_bounds != None:
             lower = x_bounds[0]
             upper = x_bounds[1]
-
         else:
             lower = -1 * zoomed_x
             upper = zoomed_x
-
         for x_ in range(int(lower), int(upper)):
             self.draw_point(round(x + x_), round(y + (function)(x_ / zoom) * zoom), color)
 
     def parametric_plot(self, x_function, y_function, x = 0, y = 0, color = red, zoom = 10, t_range = range(100)):
-
         for t in t_range:
             self.draw_point(round(x + x_function(t / zoom) * zoom), round(y + y_function(t / zoom) * zoom), color)
 
     def custom_parametric_plot(self, x_function, y_function, v_function, x = 0, y = 0, color = red, zoom = 10, u_range = range(10 ** 4)):
-        
         for u in u_range:
             v = v_function(u / zoom)
             self.draw_point(round(x + x_function(u / zoom, v) * zoom), round(y + y_function(u / zoom, v) * zoom), color)
 
     def polar_plot(self, r_function, x = 0, y = 0, color = red, zoom = 10, theta_range = range(10 ** 4)):
-        
+
         def x_func(theta, r):
             return r * cos(theta)
 
@@ -134,7 +111,6 @@ class Screen(Image):
         self.parametric_plot(x_func, y_func, x, y, color, zoom, range(10 ** 3))
 
     def draw_flower(self, petals = 4, x = 0, y = 0, color = red, zoom = 50):
-        
         if petals == 2:
             
             def r_func(theta):
@@ -142,10 +118,8 @@ class Screen(Image):
 
         else:
             n = petals
-
             if n % 2 == 0:
                 n = n / 2
-                
                 if n % 2 == 1:
                     raise(Exception(f"Is not possible to build a flower with {petals} petals"))
 
@@ -156,13 +130,11 @@ class Screen(Image):
 
     def paint(self, method, coloring_depth = 100, *args, zoom = 5):
         steps = int(coloring_depth * zoom / 5)
-
         for t in range(1, steps):
             method(*args, zoom)
 
     def paint_under(self, function, x = 0, y = 0, color = red, zoom = 10, x_bounds = None, y_bounds = None):
         zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
-
         if x_bounds != None:
             lower = x_bounds[0]
             upper = x_bounds[1]
@@ -178,15 +150,13 @@ class Screen(Image):
             upper_y = self.mid_height
 
         for x_ in range(int(lower), int(upper)):
-            for y_value in range(
-                    max(-self.mid_height, lower_y),
-                    min(round(y + (function)(x_ / zoom) * zoom), upper_y)
-                ):
+            vertical_lower_bound = max(-self.mid_height, lower_y)
+            vertical_upper_bound = min(round(y + (function)(x_ / zoom) * zoom), upper_y)
+            for y_value in range(vertical_lower_bound, vertical_upper_bound):
                 self.draw_point(round(x + x_), y_value, color)
 
     def paint_over(self, function, x = 0, y = 0, color = red, zoom = 10, x_bounds = None, y_bounds = None):
         zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
-
         if x_bounds != None:
             lower = x_bounds[0]
             upper = x_bounds[1]
@@ -209,15 +179,13 @@ class Screen(Image):
                 self.draw_point(round(x + x_), y_value, color)
 
     def split_regions(self, function, x = 0, y = 0, colors = [red, red] , zoom = 10, x_bounds = None, y_bounds = None):
-        zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
-
         if x_bounds != None:
             lower = x_bounds[0]
             upper = x_bounds[1]
         else:
-            lower = -1 * zoomed_x
+            zoomed_x = min(int(self.mid_width * zoom), self.mid_width)
+            lower = -zoomed_x
             upper = zoomed_x
-
         if y_bounds != None:
             lower_y = y_bounds[0]
             upper_y = y_bounds[1]
@@ -227,7 +195,7 @@ class Screen(Image):
 
         for x_ in range(int(lower), int(upper)):
             for y_value in range(-self.mid_height, self.mid_height):
-                fy = round(y + (function)(x_ / zoom) * zoom)
+                fy = round(y + function(x_ / zoom) * zoom)
 
                 if y_value < max(fy, lower_y):              
                     self.draw_point(round(x + x_), y_value, colors[0])
@@ -238,38 +206,28 @@ class Screen(Image):
 
     def heart(self, x = 0, y = 0, color = red, zoom = 5):
         coloring_depth = 600
-
         steps = int(coloring_depth * zoom / 5)
-
         for t in range(1, steps):
             self.draw_heart(x, y, color, zoom * t / steps)
 
     def flower(self, petals = 4, x = 0, y = 0, color = red, zoom = 5):
         coloring_depth = 100
-
         steps = int(coloring_depth * zoom / 5)
-
         for t in range(1, steps):
             self.draw_flower(petals, x, y, color, zoom * t / steps)
 
     def draw_vertical_line(self, x, y1, y2 = 0, color = violet, zoom = 1):
         lower = min(y1, y2)
         upper = max(y1, y2)
-
         for y in range(int(zoom * lower), int(zoom * upper)):
             self.draw_point(round(x), round(y), color)
 
-        return
-
     def draw_line(self, point_1, point_2 = [0, 0], color = violet, zoom = 1):
-
         x1, y1 = point_1[0], point_1[1]
         x2, y2 = point_2[0], point_2[1]
-
         if zoom < 0:
             zoom *= -1
             x1, x2, y1, y2 = -x1, -x2, -y1, -y2
-
         if (x2 - x1) != 0:
             m = (y2 - y1) / (x2 - x1)
 
@@ -278,9 +236,7 @@ class Screen(Image):
 
             lower = min(x1, x2)
             upper = max(x1, x2)
-
             self.plot(f, 0, 0, color, zoom, [zoom * lower, zoom * upper])
-
         else:
             self.draw_vertical_line(x1, y1, y2, color, zoom)
 
@@ -327,28 +283,22 @@ class Screen(Image):
         return w1 >= 0 and w2 >= 0 and w1 + w2 <= 1
 
     def triangle(self, point_1, point_2, point_3 = [0, 0], color = yellow, zoom = 1):
-
         A = Vector(point_1)
         B = Vector(point_2)
         C = Vector(point_3)
-
         triangle_points = [A.scale(zoom), B.scale(zoom), C.scale(zoom)]
 
         for y in range(-self.mid_height, self.mid_height):
-
             for x in range(-self.mid_width, self.mid_width):
-
                 if self.is_point_inside_triangle([x, y], triangle_points):
                     self.draw_point(x, y, color)
     
     @property
     def room_with_tuples(self):
         array = self.room[:]
-
         for i in range(len(array)):
             for j in range(len(array[0])):
                 array[i][j] = tuple(array[i][j])
-
         return array
 
     def save(self, file_name = "result.png"):
