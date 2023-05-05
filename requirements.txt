@@ -1,0 +1,5 @@
+eggdriver>=0.0.1
+colr
+numpy
+pygame<2.0.0
+opencv-contrib-python

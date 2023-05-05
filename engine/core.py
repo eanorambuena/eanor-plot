@@ -9,7 +9,7 @@ from engine.colors import *
 class Screen(Image):
 
     def __init__(self, height = 224, width = 620, bgcolor = black):
-        super().__init__(auto_install=False)
+        super().__init__()
 
         self.height = height
         self.width = width

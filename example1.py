@@ -17,20 +17,20 @@ def main():
 
     pygame.display.set_caption("Eanorambuena Mathematica")
 
-    def setup(screen):
+    def setup(screen: Screen):
         screen.draw_axes()
         Hills = Sin * 0.7 + Sin[X * 0.5 - 1] + Cos[X * 0.2] * 3
         screen.split_regions(Hills, colors = [green, dark_green, cian])
         screen.paint_over(Sqrt[X ** 2 * -1 + I * 2500] + 300, color = yellow, x_bounds = [-49, 49], y_bounds = [250, 350])
 
-    def loop(screen):
+    def loop(screen: Screen):
         screen.draw_axes()
         screen.plot(Sin, 0, 0, red)
         screen.plot(sin, 0, 0, green, 40)
 
     setup(engine_screen)
-    engine_screen.save()
-    load2screen(pygame_screen)
+    engine_screen.save("example1.png")
+    load2screen(pygame_screen, "example1.png")
 
     while True: 
         for event in pygame.event.get():

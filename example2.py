@@ -1,4 +1,4 @@
-from    engine import *
+from engine import *
 
 SCREEN_WIDTH = 4320
 SCREEN_HEIGHT = 1440
@@ -6,7 +6,7 @@ BGCOLOR = black
 
 engine_screen = Screen(SCREEN_HEIGHT, SCREEN_WIDTH, BGCOLOR)
 
-def setup(screen):
+def setup(screen: Screen):
     screen.draw_axes()
 
     a = 0.1
@@ -19,8 +19,8 @@ def setup(screen):
     screen.split_regions(Weistrass, colors = [red, violet, blue], zoom = 150)
     screen.paint_over(Sqrt[X ** 2 * -1 + I * 2500] + 300, color = yellow, x_bounds = [-49, 49], y_bounds = [250, 350])
 
-def loop(screen):
+def loop(screen: Screen):
     screen.draw_axes()
 
 setup(engine_screen)
-engine_screen.save()
+engine_screen.save("example2.png")
