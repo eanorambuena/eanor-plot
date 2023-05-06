@@ -18,7 +18,6 @@ def setup(screen: Screen):
         Weistrass += Cos[X * (b ** n * pi)] * (a ** n)
     
     screen.split_regions(Weistrass, colors = [red, violet, blue], zoom = 150)
-    screen.paint_over(Sqrt[X ** 2 * -1 + I * 2500] + 300, color = yellow, x_bounds = [-49, 49], y_bounds = [250, 350])
 
 setup(engine_screen)
 path = os.path.join("examples", "example2.png")
