@@ -1,12 +1,12 @@
 from engine import render_animation, Screen, Sin, red, black, X, I
-import os
+from os.path import join
 
-PATH = os.path.join("examples", "example4")
-OUTPUT_PATH = os.path.join("examples", "example4.mp4")
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 720
+PATH = join("examples", "example4")
+OUTPUT_PATH = join("examples", "example4.mp4")
+SCREEN_WIDTH = 720
+SCREEN_HEIGHT = 480
 BGCOLOR = black
-FPS = 30
+FPS = 24
 SECONDS = 5
 VELOCITY = 1.0
 

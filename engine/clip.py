@@ -27,13 +27,16 @@ def render_animation(loop_function, frames_path: str, output_path: str, fps: int
     if os.path.exists(frames_path):
         shutil.rmtree(frames_path)
     os.makedirs(frames_path)
-
+    clearConsole()
+    
     start = timer()
     loop_function(engine_screen, 0)
     engine_screen.save(os.path.join(frames_path, f"example4_0.png"))
     end = timer()
-    seconds = int((end - start) * seconds * fps)
-    print(f"Estimated Time: {seconds // 60}m {seconds % 60}s")
+    time_in_seconds = int((end - start) * seconds * fps)
+    print(f"""Estimated Time: {time_in_seconds // 60}m {time_in_seconds % 60}s
+Total frames: {seconds * fps}
+Resolution: {width}x{height}""")
 
     for i in range(1, seconds * fps + 1):
         delta_time = float(i) / float(fps)
