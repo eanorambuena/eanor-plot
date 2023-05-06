@@ -1,4 +1,5 @@
 from engine import *
+import os
 
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 720
@@ -20,4 +21,5 @@ def setup(screen: Screen):
     screen.paint_over(Sqrt[X ** 2 * -1 + I * 2500] + 300, color = yellow, x_bounds = [-49, 49], y_bounds = [250, 350])
 
 setup(engine_screen)
-engine_screen.save("example2.png")
+path = os.path.join("examples", "example2.png")
+engine_screen.save(path)

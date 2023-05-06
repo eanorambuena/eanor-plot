@@ -1,7 +1,7 @@
 import subprocess, sys, os
 
 if len(sys.argv) < 2:
-    print("Usage: py -m emath <filename>")
+    print("Usage: python -m emath <filename>")
     sys.exit(1)
 
 file_name = sys.argv[1]

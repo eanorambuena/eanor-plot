@@ -1,10 +1,5 @@
 from    engine import *
-import  pygame, sys
-
-def load2screen(screen = pygame.Surface, file_name = "result.png"):
-    bg = pygame.image.load(file_name).convert()
-    screen.blit(bg, (0, 0))
-    pygame.display.flip()
+import  sys, os
 
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 720
@@ -29,8 +24,9 @@ def main():
         screen.plot(sin, 0, 0, green, 40)
 
     setup(engine_screen)
-    engine_screen.save("example1.png")
-    load2screen(pygame_screen, "example1.png")
+    path = os.path.join("examples", "example1.png")
+    engine_screen.save(path)
+    load2screen(pygame_screen, path)
 
     while True: 
         for event in pygame.event.get():

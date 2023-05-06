@@ -3,3 +3,4 @@ colr
 numpy
 pygame<2.0.0
 opencv-contrib-python
+moviepy
