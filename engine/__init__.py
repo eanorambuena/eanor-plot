@@ -1,6 +1,7 @@
 from engine.body import       *
 from engine.core import       *
 from engine.math_utils import *
+from engine.clip import       *
 import pygame
 
 def load2screen(screen = pygame.Surface, file_name = "result.png"):
