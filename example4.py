@@ -3,8 +3,8 @@ from os.path import join
 
 PATH = join("examples", "example4")
 OUTPUT_PATH = join("examples", "example4.mp4")
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 1080
+SCREEN_HEIGHT = 720
 BGCOLOR = black
 FPS = 24
 SECONDS = 5
