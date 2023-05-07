@@ -4,6 +4,7 @@ from eggdriver.resources.console import clearConsole
 import moviepy.video.io.ImageSequenceClip
 import os
 from timeit import default_timer as timer
+from tqdm import tqdm
 import shutil
 
 def clip_images(image_folder: str = "examples", fps: int = 1, output_file: str = "my_video.mp4", use_moviepy: bool = False):
@@ -48,7 +49,7 @@ def render_animation(loop_function, frames_path: str, output_path: str, fps: int
     time_in_seconds = int((end - start) * seconds * fps)
     print(f"Estimated Time: {time_in_seconds // 60}m {time_in_seconds % 60}s\nTotal frames: {seconds * fps}\nResolution: {width}x{height}\n")
 
-    for i in range(1, seconds * fps + 1):
+    for i in tqdm(range(1, seconds * fps + 1), desc="Rendering", ncols=100, unit="frame"):
         delta_time = float(i) / float(fps)
         loop_function(engine_screen, delta_time)
         number = str(i).zfill(number_size)
