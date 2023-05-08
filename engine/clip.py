@@ -55,4 +55,7 @@ def render_animation(loop_function, frames_path: str, output_path: str, fps: int
         number = str(i).zfill(number_size)
         engine_screen.save(os.path.join(frames_path, f"example4_{number}.png"))
 
+    clearConsole()
     clip_images(frames_path, fps, output_path, use_moviepy=use_moviepy)
+    clearConsole()
+    print(f"EanorPlot - Animation saved to {output_path}\nResolution: {width}x{height}\n")
